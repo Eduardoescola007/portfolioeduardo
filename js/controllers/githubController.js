@@ -2,21 +2,16 @@ import { CONFIG } from '../config.js';
 import { GithubService } from '../services/githubService.js';
 
 /**
- * Controller que renderiza os repositórios na página
- * e atualiza as estatísticas do "Sobre".
+ * Renderiza os repositórios como Pokébolas
+ * e atualiza as estatísticas do "Sobre mim".
  */
 export class GithubController {
-  /**
-   * @param {HTMLElement} containerEl - Onde os cards são inseridos
-   * @param {{ repos: HTMLElement, langs: HTMLElement }} statsEls
-   */
   constructor(containerEl, statsEls) {
     this.container = containerEl;
     this.statsEls  = statsEls;
     this.service   = new GithubService();
   }
 
-  /** Inicializa: busca dados, renderiza cards e estatísticas */
   async init() {
     try {
       const repos = await this.service.fetchRepositories();
@@ -28,8 +23,6 @@ export class GithubController {
     }
   }
 
-  // ---------- RENDERIZAÇÃO ----------
-
   _render(repos) {
     if (!repos.length) {
       this.container.innerHTML =
@@ -40,18 +33,25 @@ export class GithubController {
   }
 
   _buildCard(repo) {
+    const name = this._escape(repo.name);
+    const lang = this._escape(repo.language);
+    const url  = this._escape(repo.url);
+
     return `
-      <article class="card">
-        <div class="card-icon">${repo.icon}</div>
-        <h3>${this._escape(repo.name)}</h3>
-        <p>${this._escape(repo.description)}</p>
-        <div class="card-meta">
-          <span class="lang-badge">${this._escape(repo.language)}</span>
-          <a href="${this._escape(repo.url)}"
-             target="_blank" rel="noopener"
-             class="card-link">ABRIR ↗</a>
-        </div>
-      </article>
+      <div class="poke-slot">
+        <a class="pokeball" href="${url}" target="_blank" rel="noopener"
+           aria-label="Abrir projeto ${name}">
+          <span class="pokeball-top"></span>
+          <span class="pokeball-bottom"></span>
+          <span class="pokeball-band"></span>
+          <span class="pokeball-button">
+            <span class="pokeball-icon">${repo.icon}</span>
+          </span>
+          <span class="pokeball-flash"></span>
+          <span class="pokeball-tip" role="tooltip">${name}<small>${lang}</small></span>
+        </a>
+        <span class="poke-caption">${name}</span>
+      </div>
     `;
   }
 
@@ -66,24 +66,18 @@ export class GithubController {
     `;
   }
 
-  // ---------- ESTATÍSTICAS ----------
-
   _updateStats(repos) {
     const langs = [
-      ...new Set(
-        repos.map(r => r.language).filter(l => l && l !== 'Outro')
-      )
+      ...new Set(repos.map(r => r.language).filter(l => l && l !== 'Outro'))
     ];
     this.statsEls.repos.textContent = repos.length;
     this.statsEls.langs.textContent = langs.length;
   }
 
-  // ---------- UTILITÁRIOS ----------
-
-  /** Escapa HTML para evitar injeção nos textos vindos da API */
+  /** Escapa HTML (inclusive aspas) para textos vindos da API */
   _escape(str) {
     const div = document.createElement('div');
     div.textContent = String(str);
-    return div.innerHTML;
+    return div.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 }

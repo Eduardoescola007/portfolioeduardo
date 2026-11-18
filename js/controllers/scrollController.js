@@ -1,14 +1,13 @@
 import { CONFIG } from '../config.js';
 
 /**
- * Controller que aplica animação de "surge" nas seções ao entrar na viewport.
+ * Anima as seções ao entrarem na área visível.
+ * Como quem rola agora é a tela da pokédex (#tela), ela é o "root".
  */
 export class ScrollController {
-  /**
-   * @param {string} selector - Seletor dos elementos a animar
-   */
-  constructor(selector = 'section') {
+  constructor(selector = 'section', rootSelector = '#tela') {
     this.elements = document.querySelectorAll(selector);
+    this.root     = document.querySelector(rootSelector);
   }
 
   init() {
@@ -18,10 +17,11 @@ export class ScrollController {
           if (entry.isIntersecting) {
             entry.target.style.opacity   = '1';
             entry.target.style.transform = 'translateY(0)';
+            observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: CONFIG.SCROLL_THRESHOLD }
+      { root: this.root, threshold: CONFIG.SCROLL_THRESHOLD }
     );
 
     this.elements.forEach(el => {

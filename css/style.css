@@ -1,543 +1,871 @@
 /* ============================================================
-   RESET & VARIÁVEIS — PALETA POKÉMON (GBA/DS era)
+   RESET & VARIÁVEIS
    ============================================================ */
-   * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  :root {
-    --bg:               #2a2838;
-    --bg-frame:         #f8f0d0;
-    --bg-frame-shade:   #e8dca0;
-    --border-dark:      #2a2838;
-    --border-light:     #a8a098;
-    --accent-red:       #e84838;
-    --accent-red-dark:  #a82818;
-    --accent-blue:      #3878d8;
-    --accent-yellow:    #f8d038;
-    --accent-green:     #78c850;
-    --text:             #2a2838;
-    --text-dim:         #7a7868;
-    --text-light:       #f8f0d0;
-    --pixel-font:       'Press Start 2P', monospace;
-  }
-  
-  html { scroll-behavior: smooth; }
-  
-  body {
-    background:
-      radial-gradient(circle at 15% 15%, rgba(232, 72, 56, 0.18), transparent 45%),
-      radial-gradient(circle at 85% 85%, rgba(56, 120, 216, 0.18), transparent 45%),
-      var(--bg);
-    color: var(--text-light);
-    font-family: var(--pixel-font);
-    font-size: 11px;
-    line-height: 1.9;
-    overflow-x: hidden;
-    min-height: 100vh;
-    image-rendering: pixelated;
-  }
-  
-  /* Grade pixelada sutil no fundo */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(rgba(248, 240, 208, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(248, 240, 208, 0.03) 1px, transparent 1px);
-    background-size: 16px 16px;
-    z-index: 0;
-  }
-  
-  a { color: inherit; text-decoration: none; }
-  
-  /* ============================================================
-     HEADER — POKÉBOLA + CAIXA DE DIÁLOGO
-     ============================================================ */
-  header {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem;
-    position: relative;
-    z-index: 1;
-    gap: 1.8rem;
-  }
-  
-  /* Avatar vira pokébola via CSS (HTML não muda) */
-  .avatar {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    background: linear-gradient(
-      var(--accent-red) 0 46%,
-      var(--border-dark) 46% 54%,
-      #ffffff 54% 100%
-    );
-    border: 4px solid var(--border-dark);
-    position: relative;
-    box-shadow:
-      inset -10px -10px 0 rgba(0, 0, 0, 0.18),
-      inset 10px 10px 0 rgba(255, 255, 255, 0.35),
-      6px 6px 0 rgba(0, 0, 0, 0.45);
-    font-size: 0; /* esconde o emoji 👾 */
-    animation: pokeball-bounce 2.4s ease-in-out infinite;
-  }
-  
-  .avatar::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 30px;
-    height: 30px;
-    background: #ffffff;
-    border: 4px solid var(--border-dark);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: inset 0 0 0 3px var(--bg-frame);
-  }
-  
-  @keyframes pokeball-bounce {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    25%      { transform: translateY(-14px) rotate(-12deg); }
-    75%      { transform: translateY(-14px) rotate(12deg); }
-  }
-  
-  /* Caixa de diálogo estilo Pokémon */
-  header h1 {
-    background: var(--bg-frame);
-    color: var(--accent-red);
-    font-size: clamp(1rem, 2.6vw, 1.6rem);
-    text-shadow:
-      2px 2px 0 var(--bg-frame-shade),
-      3px 3px 0 var(--border-dark);
-    padding: 2rem 2.5rem;
-    border: 3px solid var(--border-dark);
-    border-radius: 8px;
-    box-shadow:
-      inset 0 0 0 3px var(--bg-frame),
-      inset 0 0 0 6px var(--border-dark),
-      6px 6px 0 rgba(0, 0, 0, 0.45);
-    min-height: 2.2em;
-    line-height: 1.5;
-    letter-spacing: 1px;
-    max-width: 560px;
-    position: relative;
-  }
-  
-  /* Setinha ▼ de "continuar" no canto */
-  header h1::after {
-    content: '▼';
-    position: absolute;
-    bottom: 10px;
-    right: 14px;
-    font-size: 9px;
-    color: var(--border-dark);
-    animation: cursor-blink 1.2s step-end infinite;
-  }
-  
-  @keyframes cursor-blink { 50% { opacity: 0; } }
-  
-  .cursor {
-    display: inline-block;
-    width: 8px;
-    height: 1em;
-    background: var(--accent-red);
-    margin-left: 4px;
-    animation: blink 0.8s step-end infinite;
-    vertical-align: text-bottom;
-  }
-  
-  @keyframes blink { 50% { opacity: 0; } }
-  
-  header p {
-    color: var(--text-light);
-    max-width: 520px;
-    font-size: 9px;
-    line-height: 2.2;
-    background: rgba(42, 40, 56, 0.6);
-    padding: 12px 18px;
-    border-radius: 6px;
-    border: 2px dashed rgba(248, 240, 208, 0.3);
-  }
-  
-  /* ============================================================
-     BOTÃO PRINCIPAL (grande, chunky)
-     ============================================================ */
-  .btn-pixel {
-    display: inline-block;
-    padding: 20px 32px;
-    background: var(--bg-frame);
-    color: var(--text);
-    font-family: var(--pixel-font);
-    font-size: 13px;
-    font-weight: bold;
-    letter-spacing: 1.5px;
-    cursor: pointer;
-    border: 3px solid var(--border-dark);
-    border-radius: 8px;
-    box-shadow:
-      inset 0 0 0 2px var(--bg-frame),
-      inset 0 0 0 4px var(--bg-frame-shade),
-      6px 6px 0 var(--border-dark);
-    transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, background 0.15s;
-    position: relative;
-    text-align: center;
-    min-width: 240px;
-  }
-  
-  .btn-pixel:hover {
-    background: var(--accent-yellow);
-  }
-  
-  .btn-pixel:active {
-    transform: translate3d(4px, 4px, 0);
-    box-shadow:
-      inset 0 0 0 2px var(--bg-frame),
-      inset 0 0 0 4px var(--bg-frame-shade),
-      2px 2px 0 var(--border-dark);
-  }
-  
-  /* ============================================================
-     SEÇÕES
-     ============================================================ */
-  section {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 4rem 1.5rem;
-    position: relative;
-    z-index: 1;
-  }
-  
-  .section-title {
-    font-size: 13px;
-    color: var(--text-light);
-    text-shadow: 2px 2px 0 var(--border-dark);
-    margin-bottom: 2.5rem;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    letter-spacing: 1px;
-  }
-  
-  .section-title::before {
-    content: '';
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-    background: var(--accent-red);
-    border: 3px solid var(--border-dark);
-    border-radius: 50%;
-    box-shadow: inset 0 0 0 2px #ffffff;
-  }
-  
-  .section-title::after {
-    content: '';
-    flex: 1;
-    height: 3px;
-    background: repeating-linear-gradient(
-      90deg,
-      var(--text-light) 0 8px,
-      transparent 8px 16px
-    );
-    opacity: 0.4;
-  }
-  
-  /* ============================================================
-     SOBRE — caixa de diálogo
-     ============================================================ */
-  .sobre-box {
-    background: var(--bg-frame);
-    color: var(--text);
-    border: 3px solid var(--border-dark);
-    border-radius: 8px;
-    box-shadow:
-      inset 0 0 0 3px var(--bg-frame),
-      inset 0 0 0 6px var(--border-dark),
-      6px 6px 0 rgba(0, 0, 0, 0.45);
-    padding: 2rem;
-    font-size: 10px;
-    line-height: 2.2;
-  }
-  
-  .sobre-box strong { color: var(--accent-red); }
-  
-  .stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 1.5rem;
-  }
-  
-  .stat {
-    background: var(--bg-frame-shade);
-    border: 2px solid var(--border-dark);
-    border-radius: 4px;
-    padding: 14px 16px;
-    text-align: center;
-    flex: 1 1 100px;
-    position: relative;
-  }
-  
-  /* Barra de HP decorativa acima do número */
-  .stat::before {
-    content: '';
-    position: absolute;
-    top: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%;
-    height: 4px;
-    background: var(--accent-green);
-    border: 1px solid var(--border-dark);
-    border-radius: 2px;
-  }
-  
-  .stat .num {
-    font-size: 1.6rem;
-    color: var(--accent-blue);
-    display: block;
-    text-shadow: 2px 2px 0 var(--bg-frame);
-    margin-top: 8px;
-    margin-bottom: 4px;
-  }
-  
-  .stat .label {
-    font-size: 7px;
-    color: var(--text);
-    letter-spacing: 1px;
-  }
-  
-  /* ============================================================
-     PROJETOS — cards estilo "party/mochila"
-     ============================================================ */
-  .projetos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.8rem;
-  }
-  
-  .card {
-    background: var(--bg-frame);
-    color: var(--text);
-    border: 3px solid var(--border-dark);
-    border-radius: 8px;
-    padding: 1.4rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
-    position: relative;
-    box-shadow:
-      inset 0 0 0 2px var(--bg-frame),
-      inset 0 0 0 4px var(--bg-frame-shade),
-      6px 6px 0 rgba(0, 0, 0, 0.45);
-  }
-  
-  .card:hover {
-    transform: translateY(-4px);
-    box-shadow:
-      inset 0 0 0 2px var(--bg-frame),
-      inset 0 0 0 4px var(--accent-yellow),
-      8px 8px 0 rgba(0, 0, 0, 0.55);
-  }
-  
-  .card-icon {
-    font-size: 30px;
-    line-height: 1;
-    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.3));
-  }
-  
-  .card h3 {
-    font-size: 11px;
-    color: var(--accent-blue);
-    word-break: break-word;
-    text-shadow: 1px 1px 0 var(--bg-frame-shade);
-    letter-spacing: 0.5px;
-    line-height: 1.5;
-  }
-  
-  .card p {
-    font-size: 9px;
-    color: var(--text-dim);
-    line-height: 2;
-    flex: 1;
-  }
-  
-  .card-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.8rem;
-    border-top: 2px dashed var(--border-light);
-    padding-top: 1rem;
-  }
-  
-  .lang-badge {
-    display: inline-block;
-    padding: 6px 10px;
-    background: var(--accent-blue);
-    border: 2px solid var(--border-dark);
-    border-radius: 4px;
-    color: var(--text-light);
-    font-size: 8px;
-    letter-spacing: 0.5px;
-    box-shadow: 2px 2px 0 var(--border-dark);
-  }
-  
-  /* ============================================================
-     BOTÃO "ABRIR" — grande, nítido, estilo pokébola
-     ============================================================ */
-  .card-link {
-    display: inline-block;
-    padding: 16px 22px;
-    background: var(--accent-red);
-    color: #ffffff;
-    font-family: var(--pixel-font);
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 1.5px;
-    text-align: center;
-    border: 3px solid var(--border-dark);
-    border-radius: 6px;
-    box-shadow:
-      inset -2px -2px 0 rgba(0, 0, 0, 0.3),
-      inset 2px 2px 0 rgba(255, 255, 255, 0.35),
-      4px 4px 0 var(--border-dark);
-    transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, background 0.15s;
-    cursor: pointer;
-    text-decoration: none;
-    min-width: 130px;
-    line-height: 1.2;
-    image-rendering: pixelated;
-  }
-  
-  .card-link:hover {
-    background: var(--accent-yellow);
-    color: var(--border-dark);
-  }
-  
-  .card-link:active {
-    transform: translate3d(2px, 2px, 0);
-    box-shadow:
-      inset -2px -2px 0 rgba(0, 0, 0, 0.3),
-      inset 2px 2px 0 rgba(255, 255, 255, 0.35),
-      2px 2px 0 var(--border-dark);
-  }
-  
-  /* ============================================================
-     HABILIDADES
-     ============================================================ */
-  .skills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.9rem;
-  }
-  
-  .skill {
-    padding: 12px 18px;
-    background: var(--bg-frame);
-    color: var(--text);
-    border: 3px solid var(--border-dark);
-    border-radius: 6px;
-    font-size: 9px;
-    letter-spacing: 0.5px;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.45);
-    transition: all 0.15s ease-out;
-  }
-  
-  .skill:hover {
-    background: var(--accent-yellow);
-    transform: translate(-1px, -1px);
-    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.55);
-  }
-  
-  .skill.highlight {
-    background: var(--accent-red);
-    color: #ffffff;
-  }
-  
-  /* ============================================================
-     FOOTER
-     ============================================================ */
-  footer {
-    text-align: center;
-    padding: 3rem 1.5rem;
-    font-size: 9px;
-    color: var(--text-dim);
-    border-top: 3px dashed var(--border-light);
-    margin-top: 2rem;
-    position: relative;
-    z-index: 1;
-  }
-  
-  footer a {
-    color: var(--accent-yellow);
-    text-decoration: underline;
-  }
-  
-  /* ============================================================
-     MENSAGENS (loading/erro)
-     ============================================================ */
-  .msg {
-    text-align: center;
-    padding: 2rem;
-    font-size: 10px;
-    grid-column: 1 / -1;
-    background: var(--bg-frame);
-    color: var(--text);
-    border: 3px solid var(--border-dark);
-    border-radius: 8px;
-    box-shadow:
-      inset 0 0 0 3px var(--bg-frame),
-      inset 0 0 0 6px var(--border-dark);
-  }
-  
-  .msg.error {
-    color: var(--accent-red);
-    font-weight: bold;
-  }
-  
-  /* ============================================================
-     PARTÍCULAS DE CLIQUE — PIXEL BURST (CORRIGIDO)
-     ============================================================ */
-  .pixel-particle {
-    position: fixed;          /* coordenadas da viewport */
-    width: 8px;
-    height: 8px;
-    pointer-events: none;
-    z-index: 10000;
-    image-rendering: pixelated;
-    border: 1px solid rgba(0, 0, 0, 0.4);
-    animation: pixel-burst 0.55s steps(6, end) forwards;
-  }
-  
-  @keyframes pixel-burst {
-    0% {
-      transform: translate(0, 0) scale(1);
-      opacity: 1;
-    }
-    100% {
-      transform: translate(var(--dx), var(--dy)) scale(0);
-      opacity: 0;
-    }
-  }
-  
-  /* ============================================================
-     RESPONSIVO
-     ============================================================ */
-  @media (max-width: 480px) {
-    header h1 { font-size: 0.85rem; padding: 1.5rem; }
-    .projetos-grid { grid-template-columns: 1fr; }
-    .btn-pixel { min-width: 190px; font-size: 11px; padding: 16px 22px; }
-    .card-link { font-size: 11px; padding: 14px 18px; min-width: 110px; }
-  }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --font: 'Press Start 2P', monospace;
+
+  /* cores fixas da paleta Pokémon */
+  --accent-red:    #e84838;
+  --accent-blue:   #3878d8;
+  --accent-yellow: #f8d038;
+  --accent-green:  #78c850;
+
+  /* TEMA CLARO: fundo azul + pokédex amarela de borda vermelha */
+  --page-bg:      #3878d8;
+  --page-grid:    #2f68c0;
+  --frame:        #e84838;
+  --screen:       #f8e8a0;
+  --screen-shade: #ecd878;
+  --panel:        #fff6d6;
+  --panel-shade:  #f0e2a0;
+  --border:       #2a2838;
+  --text:         #2a2838;
+  --text-dim:     #5a5848;
+  --title:        #e84838;
+  --link:         #2a5fb8;
+  --ball-top:     #e84838;
+  --note-bg:      #2a2838;
+  --note-text:    #f8f0d0;
+
+  --hover-1: #e84838;  --hover-1-text: #ffffff;
+  --hover-2: #f8d038;  --hover-2-text: #2a2838;
+  --hover-3: #78c850;  --hover-3-text: #2a2838;
+  --hover-4: #3878d8;  --hover-4-text: #ffffff;
+}
+
+/* TEMA ESCURO: roxos, estilo Pokémon fantasma */
+:root[data-theme="dark"] {
+  --page-bg:      #150d26;
+  --page-grid:    #1f1438;
+  --frame:        #6b3fb0;
+  --screen:       #2b2150;
+  --screen-shade: #221a40;
+  --panel:        #3b2f6b;
+  --panel-shade:  #2f2557;
+  --border:       #0e0820;
+  --text:         #f1e9ff;
+  --text-dim:     #c3b5e8;
+  --title:        #e0b0ff;
+  --link:         #b79cff;
+  --ball-top:     #9b5de5;
+  --accent-yellow:#ffd84a;
+  --note-bg:      #150d26;
+  --note-text:    #efe6ff;
+
+  --hover-1: #9b5de5;  --hover-1-text: #ffffff;
+  --hover-2: #d65bd6;  --hover-2-text: #ffffff;
+  --hover-3: #5b6cff;  --hover-3-text: #ffffff;
+  --hover-4: #ffd84a;  --hover-4-text: #150d26;
+}
+
+html, body { height: 100%; }
+
+body {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;            /* quem rola é a tela da pokédex */
+  font-family: var(--font);
+  font-size: 11px;
+  line-height: 1.9;
+  color: var(--text);
+  background-color: var(--page-bg);
+  background-image:
+    linear-gradient(var(--page-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--page-grid) 1px, transparent 1px);
+  background-size: 16px 16px;
+  image-rendering: pixelated;
+  transition: background-color 0.3s;
+}
+
+/* Scanlines sutis no fundo */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg, rgba(0, 0, 0, 0.08) 0 1px, transparent 1px 3px
+  );
+  z-index: 0;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ============================================================
+   MENU NO TOPO
+   ============================================================ */
+.top-nav {
+  position: relative;
+  z-index: 5;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  padding: 14px 20px;
+}
+
+.nav-brand {
+  color: #ffffff;
+  font-size: 12px;
+  text-shadow: 2px 2px 0 var(--border);
+  letter-spacing: 1px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nav-link,
+.nav-btn {
+  display: inline-block;
+  padding: 10px 14px;
+  background: var(--panel);
+  color: var(--text);
+  border: 3px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 3px 3px 0 var(--border);
+  font-family: var(--font);
+  font-size: 9px;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, transform 0.08s, box-shadow 0.08s;
+}
+
+.nav-links li:nth-child(1) .nav-link { --hover: var(--hover-1); --hover-text: var(--hover-1-text); }
+.nav-links li:nth-child(2) .nav-link { --hover: var(--hover-2); --hover-text: var(--hover-2-text); }
+.nav-links li:nth-child(3) .nav-link { --hover: var(--hover-3); --hover-text: var(--hover-3-text); }
+.nav-links li:nth-child(4) .nav-link { --hover: var(--hover-4); --hover-text: var(--hover-4-text); }
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  background: var(--hover);
+  color: var(--hover-text);
+  outline: none;
+}
+
+.nav-btn:hover,
+.nav-btn:focus-visible {
+  background: var(--accent-yellow);
+  color: #2a2838;
+  outline: none;
+}
+
+.nav-link:active,
+.nav-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--border);
+}
+
+.nav-tools { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ============================================================
+   POKÉDEX (moldura vermelha + tela amarela rolável)
+   ============================================================ */
+.pokedex {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  width: min(1100px, calc(100% - 24px));
+  margin: 0 auto 14px;
+  padding: 0 14px 14px;
+  display: flex;
+  flex-direction: column;
+  background: var(--frame);
+  border: 4px solid var(--border);
+  border-radius: 18px;
+  box-shadow:
+    inset -6px -6px 0 rgba(0, 0, 0, 0.22),
+    inset 6px 6px 0 rgba(255, 255, 255, 0.22),
+    8px 8px 0 rgba(0, 0, 0, 0.4);
+  transition: background 0.3s;
+}
+
+.pokedex-lights {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 56px;
+}
+
+.led {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 3px solid var(--border);
+  border-radius: 50%;
+}
+
+.led-big {
+  width: 36px;
+  height: 36px;
+  margin-right: 8px;
+  background: radial-gradient(circle at 35% 35%, #ffffff 0 12%, #8cc4ff 13% 40%, #3878d8 41%);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+  animation: led-glow 2.4s ease-in-out infinite;
+}
+
+.led-red    { background: #ff6a5a; }
+.led-yellow { background: #f8d038; }
+.led-green  { background: #78c850; }
+
+@keyframes led-glow { 50% { filter: brightness(1.3); } }
+
+.pokedex-screen {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  background:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.035) 0 2px, transparent 2px 4px),
+    var(--screen);
+  border: 4px solid var(--border);
+  border-radius: 10px;
+  scrollbar-color: var(--frame) var(--screen-shade);
+  transition: background-color 0.3s;
+}
+
+.pokedex-screen::-webkit-scrollbar { width: 16px; }
+.pokedex-screen::-webkit-scrollbar-track { background: var(--screen-shade); }
+.pokedex-screen::-webkit-scrollbar-thumb {
+  background: var(--frame);
+  border: 3px solid var(--border);
+}
+
+/* ============================================================
+   HERO — POKÉBOLA + CAIXA DE DIÁLOGO
+   ============================================================ */
+.hero {
+  min-height: 72vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  gap: 1.8rem;
+}
+
+.avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: linear-gradient(
+    var(--ball-top) 0 46%,
+    var(--border) 46% 54%,
+    #ffffff 54% 100%
+  );
+  border: 4px solid var(--border);
+  position: relative;
+  box-shadow:
+    inset -10px -10px 0 rgba(0, 0, 0, 0.18),
+    inset 10px 10px 0 rgba(255, 255, 255, 0.35),
+    6px 6px 0 rgba(0, 0, 0, 0.45);
+  font-size: 0;
+  animation: pokeball-bounce 2.4s ease-in-out infinite;
+}
+
+.avatar::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  background: #ffffff;
+  border: 4px solid var(--border);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: inset 0 0 0 3px var(--panel);
+}
+
+@keyframes pokeball-bounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25%      { transform: translateY(-14px) rotate(-12deg); }
+  75%      { transform: translateY(-14px) rotate(12deg); }
+}
+
+.hero h1 {
+  background: var(--panel);
+  color: var(--title);
+  font-size: clamp(1rem, 2.6vw, 1.6rem);
+  text-shadow: 2px 2px 0 var(--panel-shade), 3px 3px 0 var(--border);
+  padding: 2rem 2.5rem;
+  border: 3px solid var(--border);
+  border-radius: 8px;
+  box-shadow:
+    inset 0 0 0 3px var(--panel),
+    inset 0 0 0 6px var(--border),
+    6px 6px 0 rgba(0, 0, 0, 0.45);
+  min-height: 2.2em;
+  line-height: 1.5;
+  letter-spacing: 1px;
+  max-width: 560px;
+  position: relative;
+}
+
+.hero h1::after {
+  content: '▼';
+  position: absolute;
+  bottom: 10px;
+  right: 14px;
+  font-size: 9px;
+  color: var(--border);
+  animation: blink 1.2s step-end infinite;
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1em;
+  background: var(--title);
+  margin-left: 4px;
+  animation: blink 0.8s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+.hero p {
+  max-width: 520px;
+  font-size: 10px;
+  line-height: 2.2;
+  color: var(--note-text);
+  background: var(--note-bg);
+  padding: 12px 18px;
+  border-radius: 6px;
+  border: 2px dashed rgba(248, 240, 208, 0.4);
+}
+
+/* ============================================================
+   BOTÃO PRINCIPAL
+   ============================================================ */
+.btn-pixel {
+  display: inline-block;
+  min-width: 240px;
+  padding: 20px 32px;
+  background: var(--panel);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-align: center;
+  cursor: pointer;
+  border: 3px solid var(--border);
+  border-radius: 8px;
+  box-shadow:
+    inset 0 0 0 2px var(--panel),
+    inset 0 0 0 4px var(--panel-shade),
+    6px 6px 0 var(--border);
+  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, background 0.15s;
+}
+
+.btn-pixel:hover {
+  background: var(--accent-yellow);
+  color: #2a2838;
+}
+
+.btn-pixel:active {
+  transform: translate3d(4px, 4px, 0);
+  box-shadow:
+    inset 0 0 0 2px var(--panel),
+    inset 0 0 0 4px var(--panel-shade),
+    2px 2px 0 var(--border);
+}
+
+/* ============================================================
+   SEÇÕES
+   ============================================================ */
+section {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+.section-title {
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  letter-spacing: 1px;
+}
+
+.section-title::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  background: var(--ball-top);
+  border: 3px solid var(--border);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px #ffffff;
+}
+
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 3px;
+  opacity: 0.45;
+  background: repeating-linear-gradient(
+    90deg, var(--text) 0 8px, transparent 8px 16px
+  );
+}
+
+/* ============================================================
+   SOBRE / CONTATO (caixa de diálogo)
+   ============================================================ */
+.sobre-box {
+  background: var(--panel);
+  color: var(--text);
+  border: 3px solid var(--border);
+  border-radius: 8px;
+  box-shadow:
+    inset 0 0 0 3px var(--panel),
+    inset 0 0 0 6px var(--border),
+    6px 6px 0 rgba(0, 0, 0, 0.45);
+  padding: 2rem;
+  font-size: 10px;
+  line-height: 2.2;
+}
+
+.sobre-box strong { color: var(--title); }
+
+.contato-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.stat {
+  flex: 1 1 100px;
+  position: relative;
+  text-align: center;
+  background: var(--panel-shade);
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  padding: 14px 16px;
+}
+
+/* Barra de HP */
+.stat::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 4px;
+  background: var(--accent-green);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.stat .num {
+  display: block;
+  font-size: 1.6rem;
+  color: var(--link);
+  margin: 8px 0 4px;
+}
+
+.stat .label {
+  font-size: 8px;
+  letter-spacing: 1px;
+}
+
+/* ============================================================
+   PROJETOS COMO POKÉBOLAS
+   ============================================================ */
+.projetos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 3rem 1rem;
+  justify-items: center;
+}
+
+.poke-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.pokeball {
+  --ball: 150px;
+  position: relative;
+  display: block;
+  width: var(--ball);
+  height: var(--ball);
+  cursor: pointer;
+  filter: drop-shadow(5px 5px 0 rgba(0, 0, 0, 0.45));
+  transition: transform 0.12s ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pokeball:hover,
+.pokeball:focus-visible {
+  z-index: 20;
+  outline: none;
+  transform: scale(1.08);
+  animation: ball-wiggle 0.7s ease-in-out;
+}
+
+.pokeball:active { transform: scale(0.95) translateY(3px); }
+
+.pokeball-top,
+.pokeball-bottom {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  border: 4px solid var(--border);
+}
+
+.pokeball-top {
+  top: 0;
+  background: var(--ball-top);
+  border-radius: 999px 999px 0 0;
+  border-bottom: 0;
+  transform-origin: 0% 100%;
+  box-shadow: inset 7px 7px 0 rgba(255, 255, 255, 0.35),
+              inset -7px 0 0 rgba(0, 0, 0, 0.15);
+}
+
+.pokeball-bottom {
+  bottom: 0;
+  background: #ffffff;
+  border-radius: 0 0 999px 999px;
+  border-top: 0;
+  box-shadow: inset -8px -8px 0 rgba(0, 0, 0, 0.12);
+}
+
+.pokeball-band {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 12px;
+  transform: translateY(-50%);
+  background: var(--border);
+  z-index: 2;
+}
+
+.pokeball-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 46px;
+  height: 46px;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  border: 4px solid var(--border);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 3px #f8f0d0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.pokeball:hover .pokeball-button { background: var(--accent-yellow); }
+
+.pokeball-icon { font-size: 16px; line-height: 1; }
+
+.pokeball-flash {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 35%, rgba(248, 208, 56, 0.85) 60%, transparent 72%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 4;
+  transform: translate(-50%, -50%) scale(0.2);
+}
+
+.pokeball-tip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  width: max-content;
+  max-width: 220px;
+  padding: 10px 14px;
+  background: var(--panel);
+  color: var(--title);
+  border: 3px solid var(--border);
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 2px var(--panel-shade);
+  font-size: 10px;
+  line-height: 1.6;
+  text-align: center;
+  word-break: break-word;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s, transform 0.12s;
+  z-index: 10;
+}
+
+.pokeball-tip small {
+  display: block;
+  margin-top: 4px;
+  font-size: 8px;
+  color: var(--link);
+}
+
+.pokeball:hover .pokeball-tip,
+.pokeball:focus-visible .pokeball-tip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* legenda fixa só em telas sem mouse */
+.poke-caption {
+  display: none;
+  max-width: 150px;
+  text-align: center;
+  font-size: 9px;
+  line-height: 1.6;
+  color: var(--text);
+  word-break: break-word;
+}
+
+@media (hover: none) {
+  .poke-caption { display: block; }
+  .pokeball-tip { display: none; }
+}
+
+.pokeball.opening { animation: ball-wiggle 0.3s ease-in-out; }
+.pokeball.opening .pokeball-top { animation: lid-open 0.45s 0.15s ease-out forwards; }
+.pokeball.opening .pokeball-flash { animation: ball-flash 0.5s 0.15s ease-out forwards; }
+.pokeball.opening .pokeball-tip { opacity: 0; }
+
+@keyframes ball-wiggle {
+  0%, 100% { transform: scale(1.08) rotate(0deg); }
+  20%      { transform: scale(1.08) rotate(-14deg); }
+  40%      { transform: scale(1.08) rotate(12deg); }
+  60%      { transform: scale(1.08) rotate(-8deg); }
+  80%      { transform: scale(1.08) rotate(5deg); }
+}
+
+@keyframes lid-open { to { transform: translate(-6px, -26px) rotate(-38deg); } }
+
+@keyframes ball-flash {
+  0%   { opacity: 1; transform: translate(-50%, -50%) scale(0.2); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(8); }
+}
+
+/* ============================================================
+   HABILIDADES + INSÍGNIAS DE GINÁSIO
+   ============================================================ */
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.8rem 1.2rem;
+}
+
+.skill-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.skill {
+  padding: 12px 18px;
+  background: var(--panel);
+  color: var(--text);
+  border: 3px solid var(--border);
+  border-radius: 6px;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.45);
+  transition: all 0.15s ease-out;
+}
+
+.skill.highlight {
+  background: var(--ball-top);
+  color: #ffffff;
+}
+
+.skill-item:hover .skill {
+  background: var(--accent-yellow);
+  color: #2a2838;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.55);
+}
+
+/* contorno pixelado nas insígnias */
+.badge-wrap {
+  display: inline-block;
+  transition: transform 0.2s ease-out;
+  filter:
+    drop-shadow(2px 0 0 var(--border))
+    drop-shadow(-2px 0 0 var(--border))
+    drop-shadow(0 2px 0 var(--border))
+    drop-shadow(0 -2px 0 var(--border));
+}
+
+.skill-item:hover .badge-wrap { transform: translateY(-4px) rotate(10deg); }
+
+.badge {
+  position: relative;
+  display: block;
+  width: 38px;
+  height: 38px;
+}
+
+.badge::after {
+  content: '';
+  position: absolute;
+  top: 22%;
+  left: 24%;
+  width: 18%;
+  height: 18%;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+/* 8 insígnias de Kanto (formas aproximadas) */
+.badge-1 { background: #a8a098; clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%); }   /* Pedra */
+.badge-2 { background: #3878d8; border-radius: 50%; }                                                      /* Cascata */
+.badge-3 { background: #f8d038; clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); } /* Trovão */
+.badge-4 { background: conic-gradient(#e84838, #f8d038, #78c850, #3878d8, #a060e0, #e84838); border-radius: 50%; } /* Arco-íris */
+.badge-5 { background: #e060a0; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }                    /* Alma */
+.badge-6 { background: radial-gradient(circle, #ffe08a 0 35%, #e8a838 36%); border-radius: 50%; }          /* Pântano */
+.badge-7 { background: #e86a28; clip-path: polygon(50% 0, 100% 100%, 0 100%); }                            /* Vulcão */
+.badge-8 { background: #58a840; clip-path: polygon(0 0, 100% 0, 100% 60%, 50% 100%, 0 60%); }    
+.badge-9  { background: #a060e0; clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%); }   /* GitHub */
+.badge-10 { background: #38c8c8; clip-path: polygon(35% 0, 65% 0, 65% 35%, 100% 35%, 100% 65%, 65% 65%, 65% 100%, 35% 100%, 35% 65%, 0 65%, 0 35%, 35% 35%); } /* Lógica */         /* Terra */
+
+/* ============================================================
+   RODAPÉ
+   ============================================================ */
+footer {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  margin-top: 1rem;
+  font-size: 10px;
+  color: var(--text-dim);
+  border-top: 3px dashed var(--border);
+}
+
+footer a { color: var(--link); text-decoration: underline; }
+.heart { color: var(--accent-red); }
+
+/* ============================================================
+   MENSAGENS (loading/erro)
+   ============================================================ */
+.msg {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+  font-size: 10px;
+  background: var(--panel);
+  color: var(--text);
+  border: 3px solid var(--border);
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 3px var(--panel), inset 0 0 0 6px var(--border);
+}
+
+.msg.error { color: var(--title); }
+.msg a { color: var(--link); text-decoration: underline; }
+
+/* ============================================================
+   EFEITOS DE CLIQUE: PIXELS + PURPURINA SHINY
+   ============================================================ */
+.pixel-particle {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+  z-index: 10000;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  animation: pixel-burst 0.8s steps(8, end) forwards;
+}
+
+@keyframes pixel-burst {
+  0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+}
+
+.glitter-star {
+  position: fixed;
+  pointer-events: none;
+  z-index: 10001;
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  animation: glitter 1s ease-out forwards;
+}
+
+@keyframes glitter {
+  0%   { transform: translate(0, 0) scale(0) rotate(0deg); opacity: 1; }
+  30%  { transform: translate(calc(var(--dx) * 0.5), calc(var(--dy) * 0.5)) scale(1.3) rotate(90deg); opacity: 1; }
+  55%  { transform: translate(calc(var(--dx) * 0.8), calc(var(--dy) * 0.8)) scale(0.7) rotate(150deg); opacity: 1; }
+  75%  { transform: translate(calc(var(--dx) * 0.9), calc(var(--dy) * 0.9)) scale(1.1) rotate(200deg); opacity: 1; }
+  100% { transform: translate(var(--dx), calc(var(--dy) + 40px)) scale(0) rotate(260deg); opacity: 0; }
+}
+
+.shiny-ring {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  z-index: 10000;
+  border: 4px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px #ffe45e;
+  animation: shiny-ring 0.6s ease-out forwards;
+}
+
+@keyframes shiny-ring {
+  from { transform: scale(0.2); opacity: 1; }
+  to   { transform: scale(7);   opacity: 0; }
+}
+
+/* ============================================================
+   RESPONSIVO
+   ============================================================ */
+@media (max-width: 640px) {
+  .top-nav { justify-content: center; padding: 10px; }
+  .nav-brand { display: none; }
+  .nav-link, .nav-btn { padding: 8px 10px; font-size: 8px; }
+  .pokedex { padding: 0 8px 8px; width: calc(100% - 16px); }
+  section { padding: 3rem 1rem; }
+  .hero h1 { font-size: 0.85rem; padding: 1.5rem; }
+  .btn-pixel { min-width: 190px; font-size: 11px; padding: 16px 22px; }
+  .projetos-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem 0.5rem; }
+  .pokeball { --ball: 130px; }
+  .pokeball-button { width: 40px; height: 40px; }
+}
+
+/* ============================================================
+   ACESSIBILIDADE: reduzir movimento
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .avatar, .led-big,
+  .pokeball:hover, .pokeball:focus-visible, .pokeball.opening { animation: none; }
+  .pixel-particle, .glitter-star, .shiny-ring { display: none; }
+  .pokedex-screen { scroll-behavior: auto; }
+}

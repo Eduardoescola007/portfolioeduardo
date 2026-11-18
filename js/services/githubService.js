@@ -6,10 +6,7 @@ import { Repository } from '../models/repository.js';
  * Retorna sempre instâncias de Repository, nunca dados brutos.
  */
 export class GithubService {
-  /**
-   * Busca os repositórios públicos do usuário configurado.
-   * @returns {Promise<Repository[]>}
-   */
+  /** @returns {Promise<Repository[]>} */
   async fetchRepositories() {
     const url = new URL(
       `${CONFIG.API_BASE_URL}/users/${CONFIG.GITHUB_USERNAME}/repos`
@@ -24,6 +21,8 @@ export class GithubService {
     }
 
     const data = await response.json();
-    return data.map(item => new Repository(item));
+    return data
+      .filter(item => !item.fork)
+      .map(item => new Repository(item));
   }
 }
