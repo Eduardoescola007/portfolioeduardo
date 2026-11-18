@@ -85,7 +85,7 @@ export class ClickEffectController {
       const s = document.createElement('span');
       s.className = 'glitter-star';
 
-      const size = 8 + Math.random() * 16;
+      const size = 6 * (1 + Math.floor(Math.random() * 3)); // 6, 12 ou 18px (alinhado ao grid)
       s.style.width  = `${size}px`;
       s.style.height = `${size}px`;
       s.style.left   = `${x - size / 2}px`;
