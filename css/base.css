@@ -1,0 +1,113 @@
+/* ============================================================
+   VARIÁVEIS: cores, temas e formas
+   ============================================================ */
+   :root {
+    --font: 'Press Start 2P', monospace;
+    --px: 4px;   /* espessura dos contornos pixelados */
+  
+    /* cores fixas da paleta Pokémon */
+    --accent-red:    #e84838;
+    --accent-blue:   #3878d8;
+    --accent-yellow: #f8d038;
+    --accent-green:  #78c850;
+  
+    /* TEMA CLARO: fundo azul + pokédex amarela de borda vermelha */
+    --page-bg:      #3878d8;
+    --page-grid:    #2f68c0;
+    --frame:        #e84838;
+    --screen:       #f8e8a0;
+    --screen-shade: #ecd878;
+    --panel:        #fff6d6;
+    --panel-shade:  #f0e2a0;
+    --border:       #2a2838;
+    --text:         #2a2838;
+    --text-dim:     #5a5848;
+    --title:        #e84838;
+    --link:         #2a5fb8;
+    --ball-top:     #e84838;
+  
+    --hover-1: #e84838;  --hover-1-text: #ffffff;
+    --hover-2: #f8d038;  --hover-2-text: #2a2838;
+    --hover-3: #78c850;  --hover-3-text: #2a2838;
+    --hover-4: #3878d8;  --hover-4-text: #ffffff;
+  
+    /* Sprite 8x8 da pokébola (ícone dos títulos) */
+    --ball-sprite: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath fill='%232a2838' d='M2 0h4v1H2zM1 1h1v1H1zM6 1h1v1H6zM0 2h1v1H0zM7 2h1v1H7zM0 3h3v1H0zM5 3h3v1H5zM0 4h1v1H0zM7 4h1v1H7zM0 5h1v1H0zM7 5h1v1H7zM1 6h1v1H1zM6 6h1v1H6zM2 7h4v1H2z'/%3E%3Cpath fill='%23e84838' d='M2 1h4v1H2zM1 2h6v1H1z'/%3E%3Cpath fill='%23fff' d='M3 3h2v1H3zM1 4h6v1H1zM1 5h6v1H1zM2 6h4v1H2z'/%3E%3C/svg%3E");
+  
+    /* Contorno em degraus (cantos "cortados" estilo 8-bit) */
+    --outline:
+      0 calc(var(--px) * -1) 0 0 var(--border),
+      0 var(--px) 0 0 var(--border),
+      calc(var(--px) * -1) 0 0 0 var(--border),
+      var(--px) 0 0 0 var(--border);
+    --shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.4);
+    --bevel:
+      inset -4px -4px 0 0 rgba(0, 0, 0, 0.18),
+      inset 4px 4px 0 0 rgba(255, 255, 255, 0.4);
+  
+    /* Círculos em degraus (grades 16x16 e 8x8) */
+    --circle16: polygon(31.25% 0, 68.75% 0, 68.75% 6.25%, 81.25% 6.25%, 81.25% 12.5%, 87.5% 12.5%, 87.5% 18.75%, 93.75% 18.75%, 93.75% 31.25%, 100% 31.25%, 100% 68.75%, 93.75% 68.75%, 93.75% 81.25%, 87.5% 81.25%, 87.5% 87.5%, 81.25% 87.5%, 81.25% 93.75%, 68.75% 93.75%, 68.75% 100%, 31.25% 100%, 31.25% 93.75%, 18.75% 93.75%, 18.75% 87.5%, 12.5% 87.5%, 12.5% 81.25%, 6.25% 81.25%, 6.25% 68.75%, 0 68.75%, 0 31.25%, 6.25% 31.25%, 6.25% 18.75%, 12.5% 18.75%, 12.5% 12.5%, 18.75% 12.5%, 18.75% 6.25%, 31.25% 6.25%);
+    --circle8: polygon(25% 0, 75% 0, 75% 12.5%, 87.5% 12.5%, 87.5% 25%, 100% 25%, 100% 75%, 87.5% 75%, 87.5% 87.5%, 75% 87.5%, 75% 100%, 25% 100%, 25% 87.5%, 12.5% 87.5%, 12.5% 75%, 0 75%, 0 25%, 12.5% 25%, 12.5% 12.5%, 25% 12.5%);
+  }
+  
+  /* TEMA ESCURO: roxos, estilo Pokémon fantasma */
+  :root[data-theme="dark"] {
+    --page-bg:      #150d26;
+    --page-grid:    #1d1236;
+    --frame:        #6b3fb0;
+    --screen:       #2b2150;
+    --screen-shade: #221a40;
+    --panel:        #3b2f6b;
+    --panel-shade:  #2f2557;
+    --border:       #0e0820;
+    --text:         #f1e9ff;
+    --text-dim:     #c3b5e8;
+    --title:        #e0b0ff;
+    --link:         #b79cff;
+    --ball-top:     #9b5de5;
+    --accent-yellow:#ffd84a;
+  
+    --hover-1: #9b5de5;  --hover-1-text: #ffffff;
+    --hover-2: #d65bd6;  --hover-2-text: #ffffff;
+    --hover-3: #5b6cff;  --hover-3-text: #ffffff;
+    --hover-4: #ffd84a;  --hover-4-text: #150d26;
+  
+    --ball-sprite: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath fill='%230e0820' d='M2 0h4v1H2zM1 1h1v1H1zM6 1h1v1H6zM0 2h1v1H0zM7 2h1v1H7zM0 3h3v1H0zM5 3h3v1H5zM0 4h1v1H0zM7 4h1v1H7zM0 5h1v1H0zM7 5h1v1H7zM1 6h1v1H1zM6 6h1v1H6zM2 7h4v1H2z'/%3E%3Cpath fill='%239b5de5' d='M2 1h4v1H2zM1 2h6v1H1z'/%3E%3Cpath fill='%23fff' d='M3 3h2v1H3zM1 4h6v1H1zM1 5h6v1H1zM2 6h4v1H2z'/%3E%3C/svg%3E");
+  }
+  
+  /* ============================================================
+     BASE: reset, body, fundo xadrez e scanlines
+     ============================================================ */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  html, body { height: 100%; }
+  
+  body {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;            /* quem rola é a tela da pokédex */
+    font-family: var(--font);
+    font-size: 11px;
+    line-height: 1.9;
+    color: var(--text);
+    /* xadrez de quadrados grandes (64px) */
+    background:
+      conic-gradient(var(--page-grid) 25%, var(--page-bg) 0 50%, var(--page-grid) 0 75%, var(--page-bg) 0)
+      0 0 / 64px 64px;
+    image-rendering: pixelated;
+  }
+  
+  /* Scanlines sutis no fundo */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg, rgba(0, 0, 0, 0.08) 0 2px, transparent 2px 4px
+    );
+    z-index: 0;
+  }
+  
+  a { color: inherit; text-decoration: none; }

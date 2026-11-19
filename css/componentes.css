@@ -1,0 +1,395 @@
+/* ============================================================
+   BOTÃO PRINCIPAL
+   ============================================================ */
+   .btn-pixel {
+    display: inline-block;
+    min-width: 240px;
+    padding: 20px 32px;
+    background: var(--panel);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0;
+    box-shadow: var(--outline), var(--bevel), var(--shadow);
+  }
+  
+  .btn-pixel:hover {
+    background: var(--accent-yellow);
+    color: #2a2838;
+  }
+  
+  .btn-pixel:active {
+    transform: translate(4px, 4px);
+    box-shadow: var(--outline), var(--bevel), 4px 4px 0 0 rgba(0, 0, 0, 0.4);
+  }
+  
+  /* ============================================================
+     SOBRE MIM / CONTATO (caixa de diálogo) + ESTATÍSTICAS
+     ============================================================ */
+  .sobre-box {
+    background: var(--panel);
+    color: var(--text);
+    border-radius: 0;
+    box-shadow:
+      var(--outline),
+      inset 0 0 0 4px var(--panel),
+      inset 0 0 0 8px var(--border),
+      var(--shadow);
+    padding: 2.2rem;
+    font-size: 10px;
+    line-height: 2.2;
+  }
+  
+  .sobre-box strong { color: var(--title); }
+  
+  .contato-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.8rem;
+  }
+  
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.4rem;
+    margin-top: 1.8rem;
+  }
+  
+  .stat {
+    flex: 1 1 100px;
+    position: relative;
+    text-align: center;
+    background: var(--panel-shade);
+    border-radius: 0;
+    box-shadow: var(--outline);
+    padding: 18px 16px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  /* Barra de HP segmentada */
+  .stat::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 8px;
+    background: repeating-linear-gradient(
+      90deg, var(--accent-green) 0 6px, #2d5a1e 6px 8px
+    );
+    box-shadow: 0 0 0 2px var(--border);
+  }
+  
+  .stat .num {
+    display: block;
+    font-size: 1.6rem;
+    color: var(--link);
+    margin: 14px 0 4px;
+  }
+  
+  .stat .label {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  /* card do Pokémon favorito */
+.stat-fav { flex: 2 1 240px; }
+
+.fav-img {
+  display: block;
+  width: 192px;            /* sprite 96x96 ampliado 2x, pixel perfeito */
+  height: 192px;
+  margin: 12px auto 4px;
+  image-rendering: pixelated;
+}
+
+.fav-name { font-size: 1rem; }
+  
+  /* ============================================================
+     PROJETOS COMO POKÉBOLAS (círculo em degraus 16x16)
+     ============================================================ */
+  .projetos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 3.5rem 1.2rem;
+    justify-items: center;
+  }
+  
+  .poke-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  
+  .pokeball {
+    --ball: 160px;
+    --u: calc(var(--ball) / 16);   /* 1 "pixel" da pokébola */
+    position: relative;
+    display: block;
+    width: var(--ball);
+    height: var(--ball);
+    cursor: pointer;
+    filter:
+      drop-shadow(4px 0 0 var(--border))
+      drop-shadow(-4px 0 0 var(--border))
+      drop-shadow(0 4px 0 var(--border))
+      drop-shadow(0 -4px 0 var(--border))
+      drop-shadow(8px 8px 0 rgba(0, 0, 0, 0.4));
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .pokeball:hover,
+  .pokeball:focus-visible {
+    z-index: 20;
+    outline: none;
+    transform: translateY(-6px);
+    animation: ball-wiggle 0.5s steps(1, end);
+  }
+  
+  .pokeball:active { transform: translateY(0); }
+  
+  /* metades da bola */
+  .pokeball-top,
+  .pokeball-bottom {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+  }
+  
+  .pokeball-top {
+    top: 0;
+    background: var(--ball-top);
+    clip-path: polygon(31.25% 0, 68.75% 0, 68.75% 12.5%, 81.25% 12.5%, 81.25% 25%, 87.5% 25%, 87.5% 37.5%, 93.75% 37.5%, 93.75% 62.5%, 100% 62.5%, 100% 100%, 0 100%, 0 62.5%, 6.25% 62.5%, 6.25% 37.5%, 12.5% 37.5%, 12.5% 25%, 18.75% 25%, 18.75% 12.5%, 31.25% 12.5%);
+    box-shadow:
+      inset var(--u) var(--u) 0 0 rgba(255, 255, 255, 0.3),
+      inset calc(var(--u) * -1) 0 0 0 rgba(0, 0, 0, 0.18);
+  }
+  
+  .pokeball-bottom {
+    bottom: 0;
+    background: #ffffff;
+    clip-path: polygon(0 0, 100% 0, 100% 37.5%, 93.75% 37.5%, 93.75% 62.5%, 87.5% 62.5%, 87.5% 75%, 81.25% 75%, 81.25% 87.5%, 68.75% 87.5%, 68.75% 100%, 31.25% 100%, 31.25% 87.5%, 18.75% 87.5%, 18.75% 75%, 12.5% 75%, 12.5% 62.5%, 6.25% 62.5%, 6.25% 37.5%, 0 37.5%);
+    box-shadow: inset calc(var(--u) * -1) calc(var(--u) * -1) 0 0 rgba(0, 0, 0, 0.12);
+  }
+  
+  .pokeball-band {
+    position: absolute;
+    left: 0;
+    top: calc(var(--u) * 7);
+    width: 100%;
+    height: calc(var(--u) * 2);
+    background: var(--border);
+    z-index: 2;
+  }
+  
+  /* botão central com o logo da linguagem */
+  .pokeball-button {
+    --btn-inner: #ffffff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(var(--u) * 4);
+    height: calc(var(--u) * 4);
+    transform: translate(-50%, -50%);
+    clip-path: var(--circle8);
+    background:
+      linear-gradient(var(--btn-inner), var(--btn-inner)) center / 50% 50% no-repeat,
+      var(--border);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .pokeball:hover .pokeball-button,
+  .pokeball:focus-visible .pokeball-button { --btn-inner: var(--accent-yellow); }
+  
+  .pokeball-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+  }
+  
+  .pokeball-flash {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(var(--u) * 2);
+    height: calc(var(--u) * 2);
+    background: var(--accent-yellow);
+    clip-path: var(--circle8);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 4;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  
+  /* Nome do projeto (herda o contorno pixelado da pokébola) */
+  .pokeball-tip {
+    position: absolute;
+    bottom: calc(100% + 20px);
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    width: max-content;
+    max-width: 220px;
+    padding: 12px 16px;
+    background: var(--panel);
+    color: var(--title);
+    box-shadow: inset 0 0 0 4px var(--panel-shade);
+    font-size: 10px;
+    line-height: 1.6;
+    text-align: center;
+    word-break: break-word;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+  
+  .pokeball-tip small {
+    display: block;
+    margin-top: 4px;
+    font-size: 8px;
+    color: var(--link);
+  }
+  
+  .pokeball:hover .pokeball-tip,
+  .pokeball:focus-visible .pokeball-tip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  
+  /* legenda fixa só em telas sem mouse */
+  .poke-caption {
+    display: none;
+    max-width: 150px;
+    text-align: center;
+    font-size: 9px;
+    line-height: 1.6;
+    color: var(--text);
+    word-break: break-word;
+  }
+  
+  @media (hover: none) {
+    .poke-caption { display: block; }
+    .pokeball-tip { display: none; }
+  }
+  
+  /* abertura (ao clicar) */
+  .pokeball.opening { animation: ball-wiggle 0.3s steps(1, end); }
+  .pokeball.opening .pokeball-top   { animation: lid-open 0.45s 0.15s steps(5, end) forwards; }
+  .pokeball.opening .pokeball-flash { animation: ball-flash 0.5s 0.15s steps(5, end) forwards; }
+  .pokeball.opening .pokeball-tip   { opacity: 0; }
+  
+  @keyframes ball-wiggle {
+    0%, 100% { transform: translate(0, -6px); }
+    20%      { transform: translate(-8px, -6px); }
+    40%      { transform: translate(8px, -6px); }
+    60%      { transform: translate(-8px, -6px); }
+    80%      { transform: translate(8px, -6px); }
+  }
+  
+  @keyframes lid-open { to { transform: translate(-20px, -50px); } }
+  
+  @keyframes ball-flash {
+    0%   { opacity: 1; transform: translate(-50%, -50%) scale(0.2); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(8); }
+  }
+  
+  /* ============================================================
+     HABILIDADES + INSÍGNIAS DE GINÁSIO (grade 8x8)
+     ============================================================ */
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.4rem 1.6rem;
+  }
+  
+  .skill-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .skill {
+    padding: 12px 18px;
+    background: var(--panel);
+    color: var(--text);
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    border-radius: 0;
+    box-shadow: var(--outline), var(--bevel), var(--shadow);
+  }
+  
+  .skill-item:hover .skill {
+    background: var(--accent-yellow);
+    color: #2a2838;
+    transform: translate(-4px, -4px);
+    box-shadow: var(--outline), var(--bevel), 12px 12px 0 0 rgba(0, 0, 0, 0.4);
+  }
+  
+  .badge-wrap {
+    display: inline-block;
+    filter:
+      drop-shadow(4px 0 0 var(--border))
+      drop-shadow(-4px 0 0 var(--border))
+      drop-shadow(0 4px 0 var(--border))
+      drop-shadow(0 -4px 0 var(--border));
+  }
+  
+  .skill-item:hover .badge-wrap { transform: translateY(-8px); }
+  
+  .badge {
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .badge::after {
+    content: '';
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 12.5%;
+    height: 12.5%;
+    background: rgba(255, 255, 255, 0.8);
+  }
+  
+  /* 10 insígnias em pixel art (formas em degraus) */
+  .badge-1 { background: #a8a098; clip-path: polygon(25% 0, 75% 0, 75% 12.5%, 100% 12.5%, 100% 87.5%, 75% 87.5%, 75% 100%, 25% 100%, 25% 87.5%, 0 87.5%, 0 12.5%, 25% 12.5%); }  /* Pedra */
+  .badge-2 { background: #3878d8; clip-path: var(--circle8); }                                                                                                                      /* Cascata */
+  .badge-3 { background: #f8d038; clip-path: polygon(62.5% 0, 62.5% 25%, 100% 25%, 100% 37.5%, 87.5% 37.5%, 87.5% 50%, 75% 50%, 75% 75%, 87.5% 75%, 87.5% 100%, 12.5% 100%, 12.5% 75%, 25% 75%, 25% 50%, 12.5% 50%, 12.5% 37.5%, 0 37.5%, 0 25%, 37.5% 25%, 37.5% 0); }  /* Trovão */
+  .badge-4 { background: conic-gradient(#e84838 0 17%, #f8d038 0 33%, #78c850 0 50%, #3878d8 0 67%, #a060e0 0 83%, #e84838 0); clip-path: var(--circle8); }                           /* Arco-íris */
+  .badge-5 { background: #e060a0; clip-path: polygon(62.5% 0, 62.5% 12.5%, 75% 12.5%, 75% 25%, 87.5% 25%, 87.5% 37.5%, 100% 37.5%, 100% 62.5%, 87.5% 62.5%, 87.5% 75%, 75% 75%, 75% 87.5%, 62.5% 87.5%, 62.5% 100%, 37.5% 100%, 37.5% 87.5%, 25% 87.5%, 25% 75%, 12.5% 75%, 12.5% 62.5%, 0 62.5%, 0 37.5%, 12.5% 37.5%, 12.5% 25%, 25% 25%, 25% 12.5%, 37.5% 12.5%, 37.5% 0); }  /* Alma */
+  .badge-6 { background: #e8a838; clip-path: var(--circle8); }                                                                                                                      /* Pântano */
+  .badge-7 { background: #e86a28; clip-path: polygon(62.5% 0, 62.5% 25%, 75% 25%, 75% 50%, 87.5% 50%, 87.5% 75%, 100% 75%, 100% 100%, 0 100%, 0 75%, 12.5% 75%, 12.5% 50%, 25% 50%, 25% 25%, 37.5% 25%, 37.5% 0); }  /* Vulcão */
+  .badge-8 { background: #58a840; clip-path: polygon(0 0, 100% 0, 100% 62.5%, 87.5% 62.5%, 87.5% 75%, 75% 75%, 75% 87.5%, 62.5% 87.5%, 62.5% 100%, 37.5% 100%, 37.5% 87.5%, 25% 87.5%, 25% 75%, 12.5% 75%, 12.5% 62.5%, 0 62.5%); }  /* Terra */
+  .badge-9 { background: #a060e0; clip-path: polygon(62.5% 0, 62.5% 12.5%, 75% 12.5%, 75% 25%, 87.5% 25%, 87.5% 37.5%, 100% 37.5%, 100% 100%, 0 100%, 0 37.5%, 12.5% 37.5%, 12.5% 25%, 25% 25%, 25% 12.5%, 37.5% 12.5%, 37.5% 0); }  /* GitHub */
+  .badge-10 { background: #38c8c8; clip-path: polygon(62.5% 0, 62.5% 37.5%, 100% 37.5%, 100% 62.5%, 62.5% 62.5%, 62.5% 100%, 37.5% 100%, 37.5% 62.5%, 0 62.5%, 0 37.5%, 37.5% 37.5%, 37.5% 0); }  /* Lógica */
+  
+  /* ============================================================
+     MENSAGENS (carregando / erro)
+     ============================================================ */
+  .msg {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    font-size: 10px;
+    background: var(--panel);
+    color: var(--text);
+    border-radius: 0;
+    box-shadow: var(--outline), inset 0 0 0 4px var(--panel), inset 0 0 0 8px var(--border);
+  }
+  
+  .msg.error { color: var(--title); }
+  .msg a { color: var(--link); text-decoration: underline; }

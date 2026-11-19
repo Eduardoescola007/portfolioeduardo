@@ -1,0 +1,349 @@
+/* ============================================================
+   MENU NO TOPO
+   ============================================================ */
+   .top-nav {
+    position: relative;
+    z-index: 5;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px 18px;
+    padding: 18px 24px 20px;
+  }
+  
+  .nav-brand {
+    color: #ffffff;
+    font-size: 12px;
+    text-shadow: 3px 3px 0 var(--border);
+    letter-spacing: 1px;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  
+  .nav-tools { display: flex; gap: 14px; flex-wrap: wrap; }
+  
+  .nav-link,
+  .nav-btn {
+    display: inline-block;
+    padding: 10px 14px;
+    background: var(--panel);
+    color: var(--text);
+    border: 0;
+    border-radius: 0;
+    font-family: var(--font);
+    font-size: 9px;
+    line-height: 1.4;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    box-shadow: var(--outline), var(--bevel), var(--shadow);
+  }
+  
+  .nav-links li:nth-child(1) .nav-link { --hover: var(--hover-1); --hover-text: var(--hover-1-text); }
+  .nav-links li:nth-child(2) .nav-link { --hover: var(--hover-2); --hover-text: var(--hover-2-text); }
+  .nav-links li:nth-child(3) .nav-link { --hover: var(--hover-3); --hover-text: var(--hover-3-text); }
+  .nav-links li:nth-child(4) .nav-link { --hover: var(--hover-4); --hover-text: var(--hover-4-text); }
+  
+  .nav-link:hover,
+  .nav-link:focus-visible {
+    background: var(--hover);
+    color: var(--hover-text);
+    outline: none;
+  }
+  
+  .nav-btn:hover,
+  .nav-btn:focus-visible {
+    background: var(--accent-yellow);
+    color: #2a2838;
+    outline: none;
+  }
+  
+  .nav-link:active,
+  .nav-btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: var(--outline), var(--bevel), 4px 4px 0 0 rgba(0, 0, 0, 0.4);
+  }
+  
+  /* ============================================================
+     POKÉDEX (moldura vermelha + tela amarela rolável)
+     ============================================================ */
+  .pokedex {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    min-height: 0;
+    width: min(1100px, calc(100% - 40px));
+    margin: 0 auto 24px;
+    padding: 0 16px 16px;
+    display: flex;
+    flex-direction: column;
+    background: var(--frame);
+    border-radius: 0;
+    box-shadow:
+      0 -8px 0 0 var(--border),
+      0 8px 0 0 var(--border),
+      -8px 0 0 0 var(--border),
+      8px 0 0 0 var(--border),
+      inset -8px -8px 0 0 rgba(0, 0, 0, 0.22),
+      inset 8px 8px 0 0 rgba(255, 255, 255, 0.22),
+      16px 16px 0 0 rgba(0, 0, 0, 0.4);
+  }
+  
+  /* luzes no topo da pokédex */
+  .pokedex-lights {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 64px;
+  }
+  
+  .led {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    box-shadow: var(--outline);
+  }
+  
+  .led-big {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    background: #3878d8;
+    box-shadow:
+      var(--outline),
+      inset 8px 8px 0 0 #8cc4ff,
+      inset -8px -8px 0 0 rgba(0, 0, 0, 0.25);
+    animation: led-glow 2.4s steps(2, end) infinite;
+  }
+  
+  .led-big::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 8px;
+    height: 8px;
+    background: #ffffff;
+  }
+  
+  .led-red    { background: #ff6a5a; }
+  .led-yellow { background: #f8d038; }
+  .led-green  { background: #78c850; }
+  
+  @keyframes led-glow { 50% { filter: brightness(1.3); } }
+  
+  /* tela rolável */
+  .pokedex-screen {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    background:
+      repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.035) 0 2px, transparent 2px 4px),
+      var(--screen);
+    border-radius: 0;
+    box-shadow: var(--outline);
+    scrollbar-color: var(--frame) var(--screen-shade);
+  }
+  
+  .pokedex-screen::-webkit-scrollbar { width: 18px; }
+  .pokedex-screen::-webkit-scrollbar-track { background: var(--screen-shade); }
+  .pokedex-screen::-webkit-scrollbar-thumb {
+    background: var(--frame);
+    border: 4px solid var(--border);
+  }
+  
+  /* ============================================================
+     HERO: pokébola, título (caixa de diálogo) e foto
+     ============================================================ */
+  .hero {
+    min-height: 72vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    gap: 2.2rem;
+  }
+  
+  /* Pokébola do hero: círculo em degraus 16x16 */
+  .avatar {
+    position: relative;
+    width: 128px;
+    height: 128px;
+    font-size: 0;
+    filter:
+      drop-shadow(4px 0 0 var(--border))
+      drop-shadow(-4px 0 0 var(--border))
+      drop-shadow(0 4px 0 var(--border))
+      drop-shadow(0 -4px 0 var(--border))
+      drop-shadow(8px 8px 0 rgba(0, 0, 0, 0.4));
+    animation: pokeball-bounce 2s steps(1, end) infinite;
+  }
+  
+  .avatar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    clip-path: var(--circle16);
+    background: linear-gradient(
+      var(--ball-top) 0 43.75%,
+      var(--border) 43.75% 56.25%,
+      #ffffff 56.25% 100%
+    );
+    box-shadow:
+      inset 8px 8px 0 0 rgba(255, 255, 255, 0.28),
+      inset -8px -8px 0 0 rgba(0, 0, 0, 0.16);
+  }
+  
+  .avatar::after {
+    content: '';
+    position: absolute;
+    top: 37.5%;
+    left: 37.5%;
+    width: 25%;
+    height: 25%;
+    clip-path: var(--circle8);
+    background:
+      linear-gradient(#ffffff, #ffffff) center / 50% 50% no-repeat,
+      var(--border);
+  }
+  
+  @keyframes pokeball-bounce {
+    0%   { transform: translateY(0); }
+    10%  { transform: translateY(-8px); }
+    20%  { transform: translateY(-16px); }
+    30%  { transform: translateY(-8px); }
+    40%  { transform: translateY(0); }
+    100% { transform: translateY(0); }
+  }
+  
+  /* Linha: título + foto */
+  .hero-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2.5rem 2.8rem;
+  }
+  
+  /* Título em caixa de diálogo */
+  .hero h1 {
+    position: relative;
+    max-width: 560px;
+    min-height: 2.2em;
+    padding: 2rem 2.5rem;
+    background: var(--panel);
+    color: var(--title);
+    font-size: clamp(1rem, 2.6vw, 1.6rem);
+    line-height: 1.5;
+    letter-spacing: 1px;
+    text-shadow: 3px 3px 0 var(--panel-shade), 4px 4px 0 var(--border);
+    border-radius: 0;
+    box-shadow:
+      var(--outline),
+      inset 0 0 0 4px var(--panel),
+      inset 0 0 0 8px var(--border),
+      var(--shadow);
+  }
+  
+  .hero h1::after {
+    content: '▼';
+    position: absolute;
+    bottom: 14px;
+    right: 18px;
+    font-size: 9px;
+    color: var(--border);
+    animation: blink 1.2s step-end infinite;
+  }
+  
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background: var(--title);
+    margin-left: 4px;
+    animation: blink 0.8s step-end infinite;
+    vertical-align: text-bottom;
+  }
+  
+  @keyframes blink { 50% { opacity: 0; } }
+  
+  /* Foto ao lado do título */
+  .hero-photo {
+    --photo: 192px;
+    flex-shrink: 0;
+    padding: 8px;
+    background: var(--panel);
+    box-shadow: var(--outline), inset 0 0 0 4px var(--panel-shade), var(--shadow);
+  }
+  
+  .hero-photo img {
+    display: block;
+    width: var(--photo);
+    height: var(--photo);
+    object-fit: cover;
+  }
+  
+  /* ============================================================
+     SEÇÕES: layout e títulos
+     ============================================================ */
+  section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    letter-spacing: 1px;
+  }
+  
+  .section-title::before {
+    content: '';
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    background: var(--ball-sprite) center / 100% 100% no-repeat;
+    image-rendering: pixelated;
+  }
+  
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 4px;
+    opacity: 0.45;
+    background: repeating-linear-gradient(
+      90deg, var(--text) 0 8px, transparent 8px 16px
+    );
+  }
+  
+  /* ============================================================
+     RODAPÉ
+     ============================================================ */
+  footer {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    margin-top: 1rem;
+    font-size: 10px;
+    color: var(--text-dim);
+    border-top: 4px dashed var(--border);
+  }
+  
+  footer a { color: var(--link); text-decoration: underline; }
+  .heart { color: var(--accent-red); }
